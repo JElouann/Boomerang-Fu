@@ -10,9 +10,7 @@ public class PauseScreen : MonoBehaviour
     {
         if(_uiPause.activeSelf == true) // si l'�cran est d�j� en pause
         {
-            // on peut rejouer
-            _uiPause.SetActive(false);
-            Time.timeScale = 1.0f;
+            UnPause(); // on appelle l'autre méthode pour éviter les doublons
         }
 
         else // sinon
@@ -21,6 +19,13 @@ public class PauseScreen : MonoBehaviour
             Time.timeScale = 0.0f;
             _uiPause.SetActive(true);
         }
+    }
+
+    public void UnPause() 
+    {
+        // on peut rejouer
+        _uiPause.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 
     private void Start()
