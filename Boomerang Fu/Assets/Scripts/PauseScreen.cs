@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 
 public class PauseScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject _uiPause; // on récupère le panel d'UI pour la pause
+    [SerializeField] private GameObject _uiPause; // on rï¿½cupï¿½re le panel d'UI pour la pause
 
-    public void Pause(InputAction.CallbackContext value) //Pour ajouter et retirer la pause grâce à l'input associé
+    public void Pause(InputAction.CallbackContext value) //Pour ajouter et retirer la pause grï¿½ce ï¿½ l'input associï¿½
     {
-        if(_uiPause.activeSelf == true) // si l'écran est déjà en pause
+        if(_uiPause.activeSelf == true) // si l'ï¿½cran est dï¿½jï¿½ en pause
         {
             // on peut rejouer
             _uiPause.SetActive(false);
@@ -17,7 +17,7 @@ public class PauseScreen : MonoBehaviour
 
         else // sinon
         {
-            // on met l'écran en pause
+            // on met l'ï¿½cran en pause
             Time.timeScale = 0.0f;
             _uiPause.SetActive(true);
         }
@@ -25,8 +25,8 @@ public class PauseScreen : MonoBehaviour
 
     private void Start()
     {
-        var _input = GetComponentInChildren<PlayerInputHandler>(); // on récupère l'input handler
-        _input.OnPause += Pause; // ajouter la méthode de pause à l'input de pause
+        var _input = GetComponentInChildren<PlayerInputHandler>(); // on rï¿½cupï¿½re l'input handler
+        _input.OnPause += Pause; // ajouter la mï¿½thode de pause ï¿½ l'input de pause
     }
 
 }
