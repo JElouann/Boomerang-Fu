@@ -2,29 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Dash : MonoBehaviour
+public class PlayerDash : MonoBehaviour
 {
     public Rigidbody Rb;
 
     public float VitesseDash;
 
-    private float timeduration = 0;
-
-    void Update()
+    private void Awake()
     {
-        bool dash = Input.GetKey(KeyCode.Space);
-        timeduration += 1 + timeduration;
-
-        if (dash == true)
-        {
+        var _input = GetComponentInChildren<PlayerInputHandler>();
+        _input.OnDash += Dasher;
+    }
+    void Dasher(InputAction.CallbackContext Dash)
+    {
+        if (Dash.performed) { 
             Rb.AddForce(Vector3.forward * VitesseDash, ForceMode.Impulse);
-
-            if (timeduration >= 1)
-            {
-                
-                timeduration = 0;
-            }
         }
     }
+
 }
