@@ -1,14 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
     public Rigidbody Rb;
 
-    public float DistanceTraget;
-    private void Start()
+    public float VitesseDash;
+
+    private float timeduration = 0;
+
+    void Update()
     {
-        Rb.AddForce(Vector3.forward * DistanceTraget , ForceMode.Impulse);
+        bool dash = Input.GetKey(KeyCode.Space);
+        timeduration += 1 + timeduration;
+
+        if (dash == true)
+        {
+            Rb.AddForce(Vector3.forward * VitesseDash, ForceMode.Impulse);
+
+            if (timeduration >= 1)
+            {
+                
+                timeduration = 0;
+            }
+        }
     }
 }
