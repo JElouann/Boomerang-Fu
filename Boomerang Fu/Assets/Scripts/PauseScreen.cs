@@ -1,33 +1,36 @@
 using UnityEngine;
-using System;
+using UnityEngine.InputSystem;
 
 public class PauseScreen : MonoBehaviour
 {
-    public event Action OnPause;
+    [SerializeField] private GameObject _uiPause; // on r�cup�re le panel d'UI pour la pause
 
-    [SerializeField] private GameObject _uiPause;
-
-    public void DisplayPauseScreen()
+    public void Pause(InputAction.CallbackContext value) //Pour ajouter et retirer la pause gr�ce � l'input associ�
     {
-        Time.timeScale = 0.0f;
-        _uiPause.SetActive(true);
-    }
-
-    public void DisplayGameScreen()
-    {
-        Time.timeScale = 1.0f;
-        _uiPause.SetActive(false);
-
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(_uiPause.activeSelf == true) // si l'�cran est d�j� en pause
         {
-            OnPause?.Invoke();
+            UnPause(); // on appelle l'autre méthode pour éviter les doublons
         }
 
-        this.OnPause += DisplayPauseScreen;
+        else // sinon
+        {
+            // on met l'�cran en pause
+            Time.timeScale = 0.0f;
+            _uiPause.SetActive(true);
+        }
+    }
+
+    public void UnPause() 
+    {
+        // on peut rejouer
+        _uiPause.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
+    private void Start()
+    {
+        var _input = GetComponentInChildren<PlayerInputHandler>(); // on r�cup�re l'input handler
+        _input.OnPause += Pause; // ajouter la m�thode de pause � l'input de pause
     }
 
 }
