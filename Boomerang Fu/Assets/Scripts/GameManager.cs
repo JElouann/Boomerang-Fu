@@ -3,13 +3,14 @@ using System.Collections.ObjectModel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance {
         get {
-            if(_instance == null){
+            if (_instance == null) {
                 GameObject go = new GameObject();
                 go.AddComponent<GameManager>();
                 DontDestroyOnLoad(go);
@@ -20,29 +21,33 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] public int MaxScore;
 
-    ObservableCollection<int> Score = new ObservableCollection<int>();
+    public ObservableCollection<int> Score = new ObservableCollection<int>() { 0, 0, 0, 0 };
   
     void Awake(){
         if(_instance != null){
             Destroy(this.gameObject);
         }
         _instance = this;
-        DontDestroyOnLoad(this.gameObject);
-        
         Score.CollectionChanged += new NotifyCollectionChangedEventHandler(
-            delegate(object sender, NotifyCollectionChangedEventArgs e)                    
-        {
-            if (e.Action == NotifyCollectionChangedAction.Replace)
+            delegate (object sender, NotifyCollectionChangedEventArgs e)
             {
-                Debug.Log($"NewItems is {e.NewItems[0]}");
-            }
-        });
+                if (e.Action == NotifyCollectionChangedAction.Replace)
+                {
+                    // Should never be superior, but just in case.
+                    print((int)e.NewItems[0]);
+                    if ((int)e.NewItems[0] >= MaxScore)
+                    {
+                        EndGame(e.NewStartingIndex);
+                    }
+                }
+            });
+        DontDestroyOnLoad(this.gameObject);
     }
     void Start(){
-        Score.Add(2);
+    
     }
 
-    void EndGame(){
-        Debug.Log("Travail terminééééééééé");
+    void EndGame(int winner){
+        SceneManager.LoadScene("EndingScene", LoadSceneMode.Additive);
     }
 }
