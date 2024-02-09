@@ -5,18 +5,15 @@ using UnityEngine.Windows;
 
 public class BoomerangBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private float ForceValue;
-
-    private Rigidbody rb;
-
+    public bool isOrphan;
+    [SerializeField] private float _forceValue;
+    private Rigidbody _rb;
     private bool _hasToFall;
-
     private PlayerInputHandler _input;
-
+    
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     public void StartAction(InputAction.CallbackContext value)
@@ -31,24 +28,23 @@ public class BoomerangBehaviour : MonoBehaviour
         {
             _hasToFall = true;
             StopCoroutine(Shoot());
-            Debug.Log("WHAOUUUUUUU");
-            rb.velocity = Vector3.zero;
+            _rb.velocity = Vector3.zero;
         }
     }
 
     public IEnumerator Shoot()
     {
-        this.transform.parent = null;
-        rb.AddRelativeForce(ForceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
+        this.transform.parent = null; // Détache le boomerang de son parent le joueur
+        _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
             yield return new WaitForFixedUpdate();
-        } while (rb.velocity.x > 0.1f); // Attend que la vélocité ait diminuée
+        } while (_rb.velocity.x > 0.1f); // Attend que la vélocité ait diminuée
         
         if(!_hasToFall)
         {
-            rb.velocity = Vector3.zero;
-            rb.AddRelativeForce(-ForceValue, 0, 0, ForceMode.Impulse);
+            _rb.velocity = Vector3.zero;
+            _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);
         }
     }
 }
