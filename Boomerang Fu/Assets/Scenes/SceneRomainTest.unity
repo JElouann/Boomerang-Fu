@@ -253,6 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rb: {fileID: 847612502}
   VitesseDash: 5
+  Cooldown: 0.75
 --- !u!54 &847612502
 Rigidbody:
   m_ObjectHideFlags: 0
