@@ -5,7 +5,7 @@ using UnityEngine.Windows;
 
 public class BoomerangBehaviour : MonoBehaviour
 {
-    public bool isOrphan;
+    public bool HasAParent;
     [SerializeField] private float _forceValue;
     private Rigidbody _rb;
     private bool _hasToFall;
@@ -18,7 +18,7 @@ public class BoomerangBehaviour : MonoBehaviour
 
     public void StartAction(InputAction.CallbackContext value)
     {
-        StartCoroutine(Shoot());   
+        StartCoroutine(Shoot());
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -32,9 +32,19 @@ public class BoomerangBehaviour : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other) // [A VERIFIER]
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            this.transform.parent = other.gameObject.transform;
+            HasAParent = true;
+        }
+    }
+
     public IEnumerator Shoot()
     {
         this.transform.parent = null; // Détache le boomerang de son parent le joueur
+        HasAParent = false;
         _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
