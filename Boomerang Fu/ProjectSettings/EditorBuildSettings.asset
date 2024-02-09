@@ -9,6 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 5314c44afb90f1a45aac10dcd0022115
   - enabled: 1
+    path: Assets/Scenes/SkinScene.unity
+    guid: dee08d926e7ecd14081052d520c71b27
+  - enabled: 1
     path: "Assets/Scenes/L\xE9a.unity"
     guid: 970de945165c21343a64e9231596044f
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 32043dead9d2faa4cae88f3a0bd0d17f, type: 2}
