@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -10,9 +11,13 @@ public class BoomerangBehaviour : MonoBehaviour
     private Rigidbody _rb;
     private bool _hasToFall;
     private PlayerInputHandler _input;
+
+    private GameObject _owner;
     
     private void Awake()
     {
+        Debug.Log(this);
+        _owner = this.gameObject.transform.parent.gameObject;
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -23,33 +28,34 @@ public class BoomerangBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Si l'objet de la collision n'est pas un joueur, le boomerang tombe
-        if (!collision.gameObject.CompareTag("Player"))
+        switch (collision.gameObject.tag)
         {
-            _hasToFall = true;
-            StopCoroutine(Shoot());
-            _rb.velocity = Vector3.zero;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other) // [A VERIFIER]
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            this.transform.parent = other.gameObject.transform;
-            HasAParent = true;
+            case "Player":
+                if (collision.gameObject == _owner) // Si l'objet de la collision est le joueur qui a lancé le boomerang, ce dernier le reprend comme parent et reset sa vélocité
+                {
+                    this.transform.parent = collision.gameObject.transform;
+                    _rb.velocity = Vector3.zero;
+                    collision.gameObject.SendMessage("AttachBoomerang", this);
+                    Debug.Log($"1) {this.transform.gameObject} et 2) {this}");
+                    Debug.Log($"adopté par {_owner.name}");
+                }
+                break;
+            default:
+                _hasToFall = true;
+                StopCoroutine(Shoot());
+                _rb.velocity = Vector3.zero;
+                break;
         }
     }
 
     public IEnumerator Shoot()
     {
         this.transform.parent = null; // Détache le boomerang de son parent le joueur
-        HasAParent = false;
         _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
             yield return new WaitForFixedUpdate();
-        } while (_rb.velocity.x > 0.1f); // Attend que la vélocité ait diminuée
+        } while (_rb.velocity.x > 3.5f); // Attend que la vélocité ait diminuée
         
         if(!_hasToFall)
         {

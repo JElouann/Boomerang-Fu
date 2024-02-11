@@ -167,7 +167,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -371,7 +371,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 1, z: 9}
+  m_LocalScale: {x: 20, y: 1, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -461,13 +461,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 379644910}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.8774574, z: -0, w: 0.47965473}
-  m_LocalPosition: {x: -1.88, y: 2.61, z: 1.32}
+  m_LocalRotation: {x: 0.6053491, y: 0.34163448, z: -0.385746, w: 0.6066617}
+  m_LocalPosition: {x: 11.6, y: 24.8, z: -14.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 122.674, z: 0}
+  m_LocalEulerAnglesHint: {x: 93.57599, y: 122.673996, z: 60.734}
 --- !u!1 &526603270
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 526603271}
   m_Layer: 0
   m_Name: Player (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -595,7 +595,7 @@ Transform:
   m_GameObject: {fileID: 526603270}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.38779277, z: -0, w: 0.9217466}
-  m_LocalPosition: {x: 14.8, y: 1.22, z: -15}
+  m_LocalPosition: {x: 14.5, y: 1.22, z: -15.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -630,9 +630,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538144953}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0.1
-  m_AngularDrag: 0.1
+  m_Mass: 0.5
+  m_Drag: 0.5
+  m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -647,7 +647,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!136 &538144955
 CapsuleCollider:
@@ -749,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731c66fdc77aa0a4b96f5b7de0b92806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HasAParent: 0
   _forceValue: 8
 --- !u!1 &979195284
 GameObject:
