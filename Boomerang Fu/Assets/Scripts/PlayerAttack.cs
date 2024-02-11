@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField]
     private BoomerangBehaviour _boomerangBehaviour;
 
-    private void AttachBoomerang(BoomerangBehaviour boomerangBehaviour) // Permet d'attacher un boomerang à un joueur
+    private void AttachBoomerang(BoomerangBehaviour boomerangBehaviour) // Permet d'attacher un boomerang ï¿½ un joueur
     {
         _boomerangBehaviour = boomerangBehaviour;
     }

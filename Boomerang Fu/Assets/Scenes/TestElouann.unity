@@ -749,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731c66fdc77aa0a4b96f5b7de0b92806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HasAParent: 0
   _forceValue: 8
   _boomerangVelocityThreshold: 4.5
 --- !u!1 &979195284
