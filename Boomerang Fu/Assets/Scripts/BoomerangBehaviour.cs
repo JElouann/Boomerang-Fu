@@ -6,17 +6,15 @@ using UnityEngine.Windows;
 
 public class BoomerangBehaviour : MonoBehaviour
 {
-    public bool HasAParent;
     [SerializeField] private float _forceValue;
     private Rigidbody _rb;
     private bool _hasToFall;
     private PlayerInputHandler _input;
-
+    [SerializeField] private float _boomerangVelocityThreshold; // Permet d'ajuster le point à partir duquel revient le boomerang lorsqu'il a été lancé
     private GameObject _owner;
     
     private void Awake()
     {
-        Debug.Log(this);
         _owner = this.gameObject.transform.parent.gameObject;
         _rb = GetComponent<Rigidbody>();
     }
@@ -36,8 +34,6 @@ public class BoomerangBehaviour : MonoBehaviour
                     this.transform.parent = collision.gameObject.transform;
                     _rb.velocity = Vector3.zero;
                     collision.gameObject.SendMessage("AttachBoomerang", this);
-                    Debug.Log($"1) {this.transform.gameObject} et 2) {this}");
-                    Debug.Log($"adopté par {_owner.name}");
                 }
                 break;
             default:
@@ -55,9 +51,9 @@ public class BoomerangBehaviour : MonoBehaviour
         do
         {
             yield return new WaitForFixedUpdate();
-        } while (_rb.velocity.x > 3.5f); // Attend que la vélocité ait diminuée
+        } while (_rb.velocity.x > _boomerangVelocityThreshold); // Attend que la vélocité ait diminuée
         
-        if(!_hasToFall)
+        if(!_hasToFall) // Si le boomerang ne doit pas tomber, autrement dit s'il n'a pas été stopper par un obstacle, on le fait revenir vers sa position initale
         {
             _rb.velocity = Vector3.zero;
             _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);
