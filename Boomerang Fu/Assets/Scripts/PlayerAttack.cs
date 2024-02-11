@@ -5,7 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField]
     private BoomerangBehaviour _boomerangBehaviour;
+
+    public void AttachBoomerang(BoomerangBehaviour boomerangBehaviour)
+    {
+        _boomerangBehaviour = boomerangBehaviour;
+    }
+
     private void Start()
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
