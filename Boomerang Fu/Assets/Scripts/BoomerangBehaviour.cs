@@ -1,34 +1,46 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
 public class BoomerangBehaviour : MonoBehaviour
 {
-    public bool isOrphan;
     [SerializeField] private float _forceValue;
     private Rigidbody _rb;
     private bool _hasToFall;
     private PlayerInputHandler _input;
+    [SerializeField] private float _boomerangVelocityThreshold; // Permet d'ajuster le point à partir duquel revient le boomerang lorsqu'il a été lancé
+    private GameObject _owner;
     
     private void Awake()
     {
+        _owner = this.gameObject.transform.parent.gameObject;
         _rb = GetComponent<Rigidbody>();
     }
 
     public void StartAction(InputAction.CallbackContext value)
     {
-        StartCoroutine(Shoot());   
+        StartCoroutine(Shoot());
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Si l'objet de la collision n'est pas un joueur, le boomerang tombe
-        if (!collision.gameObject.CompareTag("Player"))
+        switch (collision.gameObject.tag)
         {
-            _hasToFall = true;
-            StopCoroutine(Shoot());
-            _rb.velocity = Vector3.zero;
+            case "Player":
+                if (collision.gameObject == _owner) // Si l'objet de la collision est le joueur qui a lancé le boomerang, ce dernier le reprend comme parent et reset sa vélocité
+                {
+                    this.transform.parent = collision.gameObject.transform;
+                    _rb.velocity = Vector3.zero;
+                    collision.gameObject.SendMessage("AttachBoomerang", this);
+                }
+                break;
+            default:
+                _hasToFall = true;
+                StopCoroutine(Shoot());
+                _rb.velocity = Vector3.zero;
+                break;
         }
     }
 
@@ -39,9 +51,9 @@ public class BoomerangBehaviour : MonoBehaviour
         do
         {
             yield return new WaitForFixedUpdate();
-        } while (_rb.velocity.x > 0.1f); // Attend que la vélocité ait diminuée
+        } while (_rb.velocity.x > _boomerangVelocityThreshold); // Attend que la vélocité ait diminuée
         
-        if(!_hasToFall)
+        if(!_hasToFall) // Si le boomerang ne doit pas tomber, autrement dit s'il n'a pas été stopper par un obstacle, on le fait revenir vers sa position initale
         {
             _rb.velocity = Vector3.zero;
             _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);

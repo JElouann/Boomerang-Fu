@@ -6,6 +6,12 @@ using UnityEngine.InputSystem;
 public class PlayerAttack : MonoBehaviour
 {
     private BoomerangBehaviour _boomerangBehaviour;
+
+    private void AttachBoomerang(BoomerangBehaviour boomerangBehaviour) // Permet d'attacher un boomerang à un joueur
+    {
+        _boomerangBehaviour = boomerangBehaviour;
+    }
+
     private void Start()
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
