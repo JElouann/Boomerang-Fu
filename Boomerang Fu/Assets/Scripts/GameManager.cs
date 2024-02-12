@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int MaxScore;
 
     public ObservableCollection<int> Score = new ObservableCollection<int>() { 0, 0, 0, 0 };
+    public List<bool> Connected = new List<bool>{ false, false, false, false };
   
     void Awake(){
         if(_instance != null){
