@@ -4,8 +4,14 @@ using UnityEngine.InputSystem;
 public class PauseScreen : MonoBehaviour
 {
     // on récupère le panel d'UI pour la pause
-    [SerializeField] private GameObject _uiPause;
-    
+    private GameObject _uiPause;
+
+    private void Awake()
+    {
+        // on cherche le panel d'UI pour la pause
+        _uiPause = GameObject.FindGameObjectWithTag("PauseScreen");
+    }
+
     //Pour ajouter et retirer la pause grâce à l'input associé
     public void Pause(InputAction.CallbackContext value) 
     {

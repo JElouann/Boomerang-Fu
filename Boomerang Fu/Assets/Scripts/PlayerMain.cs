@@ -10,6 +10,7 @@ public class PlayerMain : MonoBehaviour
     private PlayerAttack _attack;
     private PlayerDash _dash;
     private PlayerMouvement _mouvement;
+    [HideInInspector]
     public int id;
 
     // on récupère les scripts pour  les intégrer chez tous les joueurs
