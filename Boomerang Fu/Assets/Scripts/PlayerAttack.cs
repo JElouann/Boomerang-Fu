@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void Attack(InputAction.CallbackContext context)
     {
-        if(context.performed && _boomerangBehaviour != null) {
+        if(context.canceled && _boomerangBehaviour != null) {
             _boomerangBehaviour.StartAction(context);
             _boomerangBehaviour = null;
         }
