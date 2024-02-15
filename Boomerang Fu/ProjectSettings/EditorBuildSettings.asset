@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: "Assets/Scenes/L\xE9a.unity"
     guid: 970de945165c21343a64e9231596044f
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: 7532155a91bebaf42aff53d6f66641a1
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 32043dead9d2faa4cae88f3a0bd0d17f, type: 2}
