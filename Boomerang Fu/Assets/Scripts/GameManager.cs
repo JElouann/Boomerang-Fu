@@ -8,9 +8,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-    public static GameManager Instance {
-        get {
-            if (_instance == null) {
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 GameObject go = new GameObject();
                 go.AddComponent<GameManager>();
                 DontDestroyOnLoad(go);
@@ -19,12 +22,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] public int MaxScore;
+    [SerializeField] public int MaxScore = 5;
 
     public ObservableCollection<int> Score = new ObservableCollection<int>() { 0, 0, 0, 0 };
-  
-    void Awake(){
-        if(_instance != null){
+    public List<bool> Connected = new List<bool> { false, false, false, false };
+
+    void Awake()
+    {
+        if (_instance != null)
+        {
             Destroy(this.gameObject);
         }
         _instance = this;
@@ -34,7 +40,6 @@ public class GameManager : MonoBehaviour
                 if (e.Action == NotifyCollectionChangedAction.Replace)
                 {
                     // Should never be superior, but just in case.
-                    print((int)e.NewItems[0]);
                     if ((int)e.NewItems[0] >= MaxScore)
                     {
                         EndGame(e.NewStartingIndex);
@@ -43,11 +48,13 @@ public class GameManager : MonoBehaviour
             });
         DontDestroyOnLoad(this.gameObject);
     }
-    void Start(){
-    
-    }
 
-    void EndGame(int winner){
+    void EndGame(int winner)
+    {
         SceneManager.LoadScene("EndingScene", LoadSceneMode.Additive);
+        var ui = FindObjectOfType<FinUI>();
+        ui.ShowTrophy(winner);
+        ui.ScoreFinal();
+
     }
 }

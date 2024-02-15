@@ -24,8 +24,10 @@ public class PlayerMouvement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Rb.velocity.magnitude > 0.1) { 
-            this.transform.rotation = Quaternion.LookRotation(Rb.velocity, Vector3.up);
+        if (Rb.velocity.magnitude > 0.3) {
+            Quaternion q = Quaternion.LookRotation(Rb.velocity, Vector3.up);
+            q.eulerAngles = new Vector3(0, q.eulerAngles.y, 0);
+            this.transform.rotation = q;
         }
     }
 }
