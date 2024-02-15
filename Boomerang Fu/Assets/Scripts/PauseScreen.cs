@@ -16,7 +16,7 @@ public class PauseScreen : MonoBehaviour
     public void Pause(InputAction.CallbackContext value) 
     {
         // si l'écran est déjà en pause
-        if(_uiPause.activeSelf == true) 
+        if(_uiPause.transform.GetChild(0).gameObject.activeSelf == true) 
         {
             // on appelle l'autre méthode pour éviter les doublons
             UnPause(); 
@@ -26,14 +26,14 @@ public class PauseScreen : MonoBehaviour
         {
             // on met l'écran en pause
             Time.timeScale = 0.0f;
-            _uiPause.SetActive(true);
+            _uiPause.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
     public void UnPause() 
     {
         // on peut rejouer
-        _uiPause.SetActive(false);
+        _uiPause.transform.GetChild(0).gameObject.SetActive(false);
         Time.timeScale = 1.0f;
     }
 
