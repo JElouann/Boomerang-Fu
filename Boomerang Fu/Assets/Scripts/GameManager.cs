@@ -26,6 +26,13 @@ public class GameManager : MonoBehaviour
 
     public ObservableCollection<int> Score = new ObservableCollection<int>() { 0, 0, 0, 0 };
     public List<bool> Connected = new List<bool> { false, false, false, false };
+    public List<Color> Color = new List<Color>
+    {
+           new Color(0.51f, 0.84f, 0.45f),
+           new Color(0.95f, 0.56f, 0.56f),
+           new Color(1.00f, 0.66f, 0.36f),
+           new Color(0.55f, 0.65f, 0.97f)
+    };
 
     void Awake()
     {
@@ -51,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     void EndGame(int winner)
     {
-        SceneManager.LoadScene("EndingScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Fin", LoadSceneMode.Additive);
         var ui = FindObjectOfType<FinUI>();
         ui.ShowTrophy(winner);
         ui.ScoreFinal();

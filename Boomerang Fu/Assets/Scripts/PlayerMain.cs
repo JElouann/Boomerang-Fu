@@ -36,6 +36,11 @@ public class PlayerMain : MonoBehaviour
                 GameManager.Instance.Score[i] = 0;
             }
         }
+
+        foreach(var renderer in GetComponentsInChildren<Renderer>())
+        {
+            renderer.materials[0].SetColor("_Color", GameManager.Instance.Color[id]);
+        }
     }
 
     private void OnDestroy()

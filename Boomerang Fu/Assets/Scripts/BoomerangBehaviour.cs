@@ -10,35 +10,89 @@ public class BoomerangBehaviour : MonoBehaviour
     private Rigidbody _rb;
     private bool _hasToFall;
     private PlayerInputHandler _input;
-    [SerializeField] private float _boomerangVelocityThreshold; // Permet d'ajuster le point à partir duquel revient le boomerang lorsqu'il a été lancé
+    [SerializeField] private float _boomerangVelocityThreshold; // Permet d'ajuster le point ï¿½ partir duquel revient le boomerang lorsqu'il a ï¿½tï¿½ lancï¿½
     private GameObject _owner;
-    
+    private PlayerMain _ownerPlayerMain;
+
+    private Vector3 _localPosition;
+    private Quaternion _localRotation;
+    private Vector3 _localScale;
+
+    private Vector3 _aimLocation;
+
     private void Awake()
     {
         _owner = this.gameObject.transform.parent.gameObject;
+        _ownerPlayerMain = _owner.GetComponent<PlayerMain>();
         _rb = GetComponent<Rigidbody>();
+
+        _localPosition = this.transform.localPosition;
+        _localRotation = this.transform.localRotation;
+        _localScale = this.transform.localScale;
+
+        this.GetComponent<Collider>().enabled = false;
+        _rb.isKinematic = true;
     }
 
-    public void StartAction(InputAction.CallbackContext value)
+    public void StartAction(Vector2 location)
     {
+        _aimLocation = location;
         StartCoroutine(Shoot());
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void FixedUpdate()
     {
+        if(_owner == null)
+        {
+            Destroy(this.gameObject);
+        }        
+    }
+
+    private void Attach(GameObject parent)
+    {
+        this.transform.parent = parent.transform;
+        this.transform.localPosition = _localPosition;
+        this.transform.localRotation = _localRotation;
+        this.transform.localScale = _localScale;
+
+        this.GetComponent<Collider>().enabled = false;
+
+        _rb.velocity = Vector3.zero;
+
+        _rb.isKinematic = true;
+
+        parent.SendMessage("AttachBoomerang", this);
+        this.StopAllCoroutines();
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        print(collision.gameObject.tag);
         switch (collision.gameObject.tag)
         {
             case "Player":
-                if (collision.gameObject == _owner) // Si l'objet de la collision est le joueur qui a lancé le boomerang, ce dernier le reprend comme parent et reset sa vélocité
+                if (collision.gameObject == _owner) // Si l'objet de la collision est le joueur qui a lancï¿½ le boomerang, ce dernier le reprend comme parent et reset sa vï¿½locitï¿½
                 {
-                    this.transform.parent = collision.gameObject.transform;
-                    _rb.velocity = Vector3.zero;
-                    collision.gameObject.SendMessage("AttachBoomerang", this);
+                    if(_owner.GetComponent<PlayerAttack>()._boomerangBehaviour == null) Attach(collision.gameObject);
+                }
+                else
+                {
+                    if(_rb.velocity.magnitude < 0.3 && collision.gameObject.GetComponent<PlayerAttack>()._boomerangBehaviour == null)
+                    {
+                        _owner = collision.gameObject;
+                        Attach(collision.gameObject);
+                    }
+                    else
+                    { 
+                        GameManager.Instance.Score[_ownerPlayerMain.id]++;
+                        Debug.Log(GameManager.Instance.Score[_ownerPlayerMain.id]);
+                        Destroy(collision.gameObject);
+                    }
                 }
                 break;
             default:
-                _hasToFall = true;
-                StopCoroutine(Shoot());
+                GetComponent<Renderer>().materials[0].SetColor("_Color", GetComponent<Renderer>().materials[0].color * 0.5f);
+                this.StopAllCoroutines();
                 _rb.velocity = Vector3.zero;
                 break;
         }
@@ -46,18 +100,21 @@ public class BoomerangBehaviour : MonoBehaviour
 
     public IEnumerator Shoot()
     {
-        this.transform.parent = null; // Détache le boomerang de son parent le joueur
+        _rb.isKinematic = false;
+        this.GetComponent<Collider>().enabled = true;
+
+        this.transform.parent = null; // DÃ©tache le boomerang de son parent le joueur
         _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
+            print($"aaaaa {_rb.velocity.magnitude}");
             yield return new WaitForFixedUpdate();
-        } while (_rb.velocity.x > _boomerangVelocityThreshold); // Attend que la vélocité ait diminuée
-        
-        if(!_hasToFall) // Si le boomerang ne doit pas tomber, autrement dit s'il n'a pas été stopper par un obstacle, on le fait revenir vers sa position initale
-        {
-            _rb.velocity = Vector3.zero;
-            _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);
-        }
+        } while (_rb.velocity.magnitude > _boomerangVelocityThreshold); // Attend que la vÃ©locitÃ© ait diminuÃ©e
+
+        print("Je retourne sur ma planete");
+
+        _rb.velocity = Vector3.zero;
+        _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);
     }
 }
 

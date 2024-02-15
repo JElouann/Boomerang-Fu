@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private BoomerangBehaviour _boomerangBehaviour;
+    public BoomerangBehaviour _boomerangBehaviour { get; private set; }
 
-    private void AttachBoomerang(BoomerangBehaviour boomerangBehaviour) // Permet d'attacher un boomerang à un joueur
+    private Vector2 _aim;
+
+    private void AttachBoomerang(BoomerangBehaviour boomerangBehaviour) // Permet d'attacher un boomerang ï¿½ un joueur
     {
         _boomerangBehaviour = boomerangBehaviour;
+
+        boomerangBehaviour.GetComponent<Renderer>().materials[0].SetColor("_Color", GameManager.Instance.Color[GetComponent<PlayerMain>().id]) ;
     }
 
     private void Start()
@@ -20,9 +25,13 @@ public class PlayerAttack : MonoBehaviour
     }
     void Attack(InputAction.CallbackContext context)
     {
-        if(context.performed && _boomerangBehaviour != null) {
-            _boomerangBehaviour.StartAction(context);
+        if(context.canceled && _boomerangBehaviour != null) {
+            _boomerangBehaviour.StartAction(_aim);
             _boomerangBehaviour = null;
+        }
+        else
+        {
+            _aim = context.ReadValue<Vector2>();
         }
     }
 }
