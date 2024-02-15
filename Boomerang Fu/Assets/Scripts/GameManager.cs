@@ -22,13 +22,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] public int MaxScore;
+    [SerializeField] public int MaxScore = 5;
 
     public ObservableCollection<int> Score = new ObservableCollection<int>() { 0, 0, 0, 0 };
-    public List<bool> Connected = new List<bool>{ false, false, false, false };
-  
-    void Awake(){
-        if(_instance != null){
+    public List<bool> Connected = new List<bool> { false, false, false, false };
+
+    void Awake()
+    {
+        if (_instance != null)
+        {
             Destroy(this.gameObject);
         }
         _instance = this;
@@ -46,14 +48,13 @@ public class GameManager : MonoBehaviour
             });
         DontDestroyOnLoad(this.gameObject);
     }
-    void Start()
-    {
-
-    }
 
     void EndGame(int winner)
     {
         SceneManager.LoadScene("EndingScene", LoadSceneMode.Additive);
+        var ui = FindObjectOfType<FinUI>();
+        ui.ShowTrophy(winner);
+        ui.ScoreFinal();
 
     }
 }
