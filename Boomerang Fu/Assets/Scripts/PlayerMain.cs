@@ -10,6 +10,9 @@ public class PlayerMain : MonoBehaviour
     private PlayerAttack _attack;
     private PlayerDash _dash;
     private PlayerMouvement _mouvement;
+
+    private AudioSource _source;
+
     [HideInInspector]
     public int id;
 
@@ -20,6 +23,7 @@ public class PlayerMain : MonoBehaviour
         _attack = GetComponent<PlayerAttack>();
         _dash = GetComponent<PlayerDash>();
         _mouvement = GetComponent<PlayerMouvement>();
+        _source = GameObject.FindGameObjectWithTag("Finish").GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -48,5 +52,7 @@ public class PlayerMain : MonoBehaviour
     {
         // on détruit le score du joueur quand ce dernier est détruit
         GameManager.Instance.Connected[id] = false; 
+        _source.Play();
+     
     }
 }

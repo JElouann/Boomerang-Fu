@@ -16,6 +16,8 @@ public class PlayerDash : MonoBehaviour
 
     [SerializeField] private GameObject _dashVFX;
 
+    private AudioSource _src;
+
     private void Awake()
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
@@ -31,6 +33,7 @@ public class PlayerDash : MonoBehaviour
     {
         if (Dash.performed && _timer < 0)
         {
+            _src.Play();
             _timer = Cooldown;
             GameObject _dashVFXClone = Instantiate(_dashVFX, transform);
             _dashVFXClone.transform.parent = null;
