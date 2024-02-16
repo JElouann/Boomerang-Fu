@@ -14,6 +14,8 @@ public class PlayerDash : MonoBehaviour
 
     public float _timer = 0;
 
+    [SerializeField] private GameObject _dashVFX;
+
     private void Awake()
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
@@ -27,11 +29,20 @@ public class PlayerDash : MonoBehaviour
 
     void Dasher(InputAction.CallbackContext Dash)
     {
-        if (Dash.performed && _timer < 0) {
+        if (Dash.performed && _timer < 0)
+        {
             _timer = Cooldown;
+            GameObject _dashVFXClone = Instantiate(_dashVFX, transform);
+            _dashVFXClone.transform.parent = null;
+            StartCoroutine(DestructVFX(_dashVFXClone));
             Rb.velocity = Vector3.zero;
             Rb.AddRelativeForce(Vector3.forward * VitesseDash * 5, ForceMode.Impulse);
         }
     }
 
+    private IEnumerator DestructVFX(GameObject vfx)
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(vfx);
+    }
 }
