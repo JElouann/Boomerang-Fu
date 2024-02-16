@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(PlayerDash))]
-[RequireComponent(typeof(PlayerMouvement))]
+[RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PauseScreen))]
 public class PlayerMain : MonoBehaviour
 {
     private PauseScreen _pause;
     private PlayerAttack _attack;
     private PlayerDash _dash;
-    private PlayerMouvement _mouvement;
+    private PlayerMovement _mouvement;
 
     private AudioSource _source;
 
@@ -27,7 +27,7 @@ public class PlayerMain : MonoBehaviour
         _pause = GetComponent<PauseScreen>();
         _attack = GetComponent<PlayerAttack>();
         _dash = GetComponent<PlayerDash>();
-        _mouvement = GetComponent<PlayerMouvement>();
+        _mouvement = GetComponent<PlayerMovement>();
         _source = GameObject.FindGameObjectWithTag("Finish").GetComponent<AudioSource>();
         _mainCamera = Camera.main;
     }

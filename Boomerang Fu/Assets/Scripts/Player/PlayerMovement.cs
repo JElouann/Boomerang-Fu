@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMouvement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody Rb;
     private PlayerDash _dash;
