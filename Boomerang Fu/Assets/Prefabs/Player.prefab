@@ -578,12 +578,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2c643b9e707234f993a0c64af85806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rb: {fileID: 7791846680096764771}
-  VitesseDash: 7
-  Cooldown: 0.35
-  _timer: 0
   _dashVFX: {fileID: 1655876779977287052, guid: 418e682f4d318604c9929bbc325e2bc5, type: 3}
   _src: {fileID: 7645388865142021016}
+  _vitesseDash: 7
+  _timer: 0
+  CoolDown: 0.35
 --- !u!114 &6796036638953524409
 MonoBehaviour:
   m_ObjectHideFlags: 0
