@@ -1,28 +1,33 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerInputHandler : MonoBehaviour
 {
+    private PlayerInput _input;
+
     public event Action<InputAction.CallbackContext> OnAttack;
+
     public event Action<InputAction.CallbackContext> OnMove;
+
     public event Action<InputAction.CallbackContext> OnDash;
+
     public event Action<InputAction.CallbackContext> OnPause;
 
     public event Action<InputAction.CallbackContext> OnOtherInput;
 
-    private PlayerInput _input;
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _input = GetComponent<PlayerInput>();
-        _input.onActionTriggered += onInput;
+        _input.onActionTriggered += OnInput;
     }
 
-    public void onInput(InputAction.CallbackContext value){
-        switch(value.action.name){
+    private void OnInput(InputAction.CallbackContext value)
+    {
+        switch (value.action.name)
+        {
             case "Aim":
                 OnAttack?.Invoke(value);
                 break;
@@ -38,6 +43,6 @@ public class PlayerInputHandler : MonoBehaviour
             default:
                 OnOtherInput?.Invoke(value);
                 break;
-        } 
+        }
     }
 }

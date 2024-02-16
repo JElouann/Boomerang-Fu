@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class BoomerangCollision : MonoBehaviour
@@ -13,8 +13,8 @@ public class BoomerangCollision : MonoBehaviour
 
     private void Awake()
     {
-        var _owner = gameObject.transform.parent.gameObject;
-        _ownerMain = _owner.GetComponent<PlayerMain>();
+        var owner = gameObject.transform.parent.gameObject;
+        _ownerMain = owner.GetComponent<PlayerMain>();
 
         _rb = GetComponent<Rigidbody>();
 
@@ -29,7 +29,7 @@ public class BoomerangCollision : MonoBehaviour
     {
         if (_ownerMain == null)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -51,21 +51,23 @@ public class BoomerangCollision : MonoBehaviour
         {
             if (collision.gameObject == _ownerMain.gameObject)
             {
-                if (_ownerMain.gameObject.GetComponent<PlayerAttack>()._boomerangCollision == null) 
+                if (_ownerMain.gameObject.GetComponent<PlayerAttack>().BoomerangCollision == null)
+                {
                     Attach(collision.gameObject);
+                }
             }
             else
             {
-                if (_rb.velocity.magnitude < 0.3 && collision.gameObject.GetComponent<PlayerAttack>()._boomerangCollision == null)
+                if (_rb.velocity.magnitude < 0.3 && collision.gameObject.GetComponent<PlayerAttack>().BoomerangCollision == null)
                 {
-                    var _owner = collision.gameObject;
-                    _ownerMain = _owner.GetComponent<PlayerMain>();
+                    var owner = collision.gameObject;
+                    _ownerMain = owner.GetComponent<PlayerMain>();
                     Attach(collision.gameObject);
                 }
                 else
                 {
                     OnDie?.Invoke(collision.gameObject);
-                    GameManager.Instance.Score[_ownerMain.id]++;
+                    GameManager.Instance.Score[_ownerMain.Id]++;
                     Destroy(collision.gameObject);
                 }
             }

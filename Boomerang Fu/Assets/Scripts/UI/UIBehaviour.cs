@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using TMPro;
@@ -8,14 +7,15 @@ using UnityEngine.UI;
 
 public class UIBehaviour : MonoBehaviour
 {
-    [SerializeField] private List<TextMeshProUGUI> texts;
-    // Start is called before the first frame update
-    void Awake()
+    [SerializeField]
+    private List<TextMeshProUGUI> texts;
+
+    private void Awake()
     {
         GameManager.Instance.Score.CollectionChanged += Score_CollectionChanged;
 
         texts = GetComponentsInChildren<TextMeshProUGUI>().ToList();
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Image>().color = GameManager.Instance.Color[i];
         }
@@ -24,7 +24,7 @@ public class UIBehaviour : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void Score_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private void Score_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Replace)
         {
@@ -42,6 +42,6 @@ public class UIBehaviour : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.Score.CollectionChanged -= Score_CollectionChanged; 
+        GameManager.Instance.Score.CollectionChanged -= Score_CollectionChanged;
     }
 }

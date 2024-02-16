@@ -1,39 +1,43 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerDash : MonoBehaviour
 {
-    [SerializeField] private GameObject _dashVFX;
-    [SerializeField] private AudioSource _src;
+    [HideInInspector]
+    public float Timer = 0;
+    public float CoolDown;
 
-    [SerializeField] private float _vitesseDash;
     private Rigidbody _rb;
 
-    [HideInInspector] public float _timer = 0;
-    public float CoolDown;
+    [SerializeField]
+    private GameObject _dashVFX;
+    [SerializeField]
+    private AudioSource _src;
+    [SerializeField]
+    private float _vitesseDash;
 
     private void Awake()
     {
-        var _input = GetComponentInChildren<PlayerInputHandler>();
-        _input.OnDash += Dash;
+        var input = GetComponentInChildren<PlayerInputHandler>();
+        input.OnDash += Dash;
 
         _rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        _timer -= Time.fixedDeltaTime;
+        Timer -= Time.fixedDeltaTime;
     }
 
-    void Dash(InputAction.CallbackContext value)
+    private void Dash(InputAction.CallbackContext value)
     {
-        if (value.performed && _timer < 0)
+        if (value.performed && Timer < 0)
         {
             // Set timer
-            _timer = CoolDown;
-            
+            Timer = CoolDown;
+
             // Add Force
             _rb.velocity = Vector3.zero;
             _rb.AddRelativeForce(Vector3.forward * _vitesseDash * 5, ForceMode.Impulse);
@@ -42,9 +46,9 @@ public class PlayerDash : MonoBehaviour
             _src.Play();
 
             // VFX
-            GameObject _dashVFXClone = Instantiate(_dashVFX, transform);
-            _dashVFXClone.transform.parent = null;
-            StartCoroutine(DestructVFX(_dashVFXClone));
+            GameObject dashVFXClone = Instantiate(_dashVFX, transform);
+            dashVFXClone.transform.parent = null;
+            StartCoroutine(DestructVFX(dashVFXClone));
         }
     }
 

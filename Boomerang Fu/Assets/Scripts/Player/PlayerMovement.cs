@@ -1,34 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerDash))]
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody Rb;
+    private Rigidbody _rb;
     private PlayerDash _dash;
     private PlayerInput _input;
-    public float Vitesse = 5;
+
+    [SerializeField]
+    private float _vitesse = 5;
+
     private void Awake()
     {
         _input = GetComponentInChildren<PlayerInput>();
         _dash = GetComponent<PlayerDash>();
+        _rb = GetComponent<Rigidbody>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if(_dash._timer <= _dash.CoolDown - (_dash.CoolDown / 4)) { 
+        if (_dash.Timer <= _dash.CoolDown - (_dash.CoolDown / 4))
+        {
             var dir = _input.actions.FindAction("Move").ReadValue<Vector2>();
-            Rb.velocity = (new Vector3(dir.x, 0, dir.y) * Vitesse);
+            _rb.velocity = new Vector3(dir.x, 0, dir.y) * _vitesse;
         }
 
-        if (Rb.velocity.magnitude > 0.3)
+        if (_rb.velocity.magnitude > 0.3)
         {
-            Quaternion q = Quaternion.LookRotation(Rb.velocity, Vector3.up);
+            Quaternion q = Quaternion.LookRotation(_rb.velocity, Vector3.up);
             q.eulerAngles = new Vector3(0, q.eulerAngles.y, 0);
-            this.transform.rotation = q;
+            transform.rotation = q;
         }
     }
 }

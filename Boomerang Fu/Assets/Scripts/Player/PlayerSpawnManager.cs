@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerSpawnManager : MonoBehaviour
@@ -8,9 +8,10 @@ public class PlayerSpawnManager : MonoBehaviour
     private void Awake()
     {
         GetComponent<PlayerInputManager>().onPlayerJoined += OnPlayerJoined;
-        _rand = new Random((ulong)Time.realtimeSinceStartup+10);
+        _rand = new Random((ulong)Time.realtimeSinceStartup + 10);
     }
-    void OnPlayerJoined(PlayerInput input)
+
+    private void OnPlayerJoined(PlayerInput input)
     {
         GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Respawn");
 

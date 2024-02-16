@@ -1,31 +1,29 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public BoomerangCollision _boomerangCollision { get; private set; }
+    public BoomerangCollision BoomerangCollision { get; private set; }
 
-    private void AttachBoomerang(BoomerangCollision boomerangBehaviour) // Permet d'attacher un boomerang � un joueur
+    private void AttachBoomerang(BoomerangCollision boomerangBehaviour)
     {
-        _boomerangCollision = boomerangBehaviour;
-        boomerangBehaviour.GetComponent<Renderer>().materials[0].SetColor("_Color", GameManager.Instance.Color[GetComponent<PlayerMain>().id]) ;
+        BoomerangCollision = boomerangBehaviour;
+        boomerangBehaviour.GetComponent<Renderer>().materials[0].SetColor("_Color", GameManager.Instance.Color[GetComponent<PlayerMain>().Id]);
     }
 
     private void Start()
     {
-        var _input = GetComponentInChildren<PlayerInputHandler>();
-        _input.OnAttack += Attack;
-        _boomerangCollision = GetComponentInChildren<BoomerangCollision>();
+        var input = GetComponentInChildren<PlayerInputHandler>();
+        input.OnAttack += Attack;
+        BoomerangCollision = GetComponentInChildren<BoomerangCollision>();
     }
 
-    void Attack(InputAction.CallbackContext context)
+    private void Attack(InputAction.CallbackContext context)
     {
-        if(context.canceled && _boomerangCollision != null) {
-            _boomerangCollision.GetComponent<BoomerangMovement>().StartAction();
-            _boomerangCollision = null;
+        if (context.canceled && BoomerangCollision != null)
+        {
+            BoomerangCollision.GetComponent<BoomerangMovement>().StartAction();
+            BoomerangCollision = null;
         }
     }
 }
