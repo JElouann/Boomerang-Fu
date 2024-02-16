@@ -22,6 +22,7 @@ public class BoomerangBehaviour : MonoBehaviour
     private Vector3 _aimLocation;
 
     [SerializeField] private GameObject _trail;
+    [SerializeField] private GameObject _deathVFXPrefab;
 
     private void Awake()
     {
@@ -47,7 +48,6 @@ public class BoomerangBehaviour : MonoBehaviour
     {
         if(_owner == null)
         {
-            _death.SetActive(true);
             Destroy(this.gameObject);
         }
     }
@@ -72,7 +72,6 @@ public class BoomerangBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         print(collision.gameObject.tag);
-        Debug.Log("MAMAAAAAAAAAAAAAAAAAAAAAAAA");
         _trail.SetActive(false);
         switch (collision.gameObject.tag)
         {
@@ -92,7 +91,9 @@ public class BoomerangBehaviour : MonoBehaviour
                     {
                         GameManager.Instance.Score[_ownerPlayerMain.id]++;
                         Debug.Log(GameManager.Instance.Score[_ownerPlayerMain.id]);
-
+                        GameObject death = Instantiate(_deathVFXPrefab, collision.gameObject.transform);
+                        death.transform.parent = null;
+                        print($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH {death}");
                         Destroy(collision.gameObject);
                     }
                 }
