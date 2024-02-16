@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UIBehaviour : MonoBehaviour
 {
-    private List<TextMeshProUGUI> texts;
+    [SerializeField] private List<TextMeshProUGUI> texts;
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,12 +19,17 @@ public class UIBehaviour : MonoBehaviour
         {
             transform.GetChild(i).GetComponent<Image>().color = GameManager.Instance.Color[i];
         }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Score_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
+        print("bonjour");
         if (e.Action == NotifyCollectionChangedAction.Replace)
         {
+            print($"new = {e.NewStartingIndex} : {e.NewItems[0]}");
             texts[e.NewStartingIndex].text = e.NewItems[0].ToString();
         }
     }

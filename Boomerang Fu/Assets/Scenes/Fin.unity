@@ -261,7 +261,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 0.6431373, g: 0.6431373, b: 0.6431373, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 674594161}
   - component: {fileID: 674594160}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Score_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1184,7 +1184,7 @@ GameObject:
   - component: {fileID: 984490815}
   - component: {fileID: 984490814}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: Score_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1319,7 +1319,7 @@ GameObject:
   - component: {fileID: 1026369090}
   - component: {fileID: 1026369089}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Score_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2086,7 +2086,7 @@ GameObject:
   - component: {fileID: 1749532866}
   - component: {fileID: 1749532865}
   m_Layer: 5
-  m_Name: Text (TMP) (3)
+  m_Name: Score_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2431,7 +2431,7 @@ GameObject:
   - component: {fileID: 2007266230}
   - component: {fileID: 2007266229}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Menu_Texte
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -81,6 +81,7 @@ public class BoomerangBehaviour : MonoBehaviour
                     if(_rb.velocity.magnitude < 0.3 && collision.gameObject.GetComponent<PlayerAttack>()._boomerangBehaviour == null)
                     {
                         _owner = collision.gameObject;
+                        _ownerPlayerMain = _owner.GetComponent<PlayerMain>();
                         Attach(collision.gameObject);
                     }
                     else

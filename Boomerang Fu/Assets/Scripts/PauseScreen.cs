@@ -10,6 +10,7 @@ public class PauseScreen : MonoBehaviour
 
     private void Awake()
     {
+
         // on cherche le panel d'UI pour la pause
         _uiPause = GameObject.FindGameObjectWithTag("PauseScreen");
 
@@ -36,11 +37,15 @@ public class PauseScreen : MonoBehaviour
         if(_uiPause.transform.GetChild(0).gameObject.activeSelf == true) 
         {
             // on appelle l'autre méthode pour éviter les doublons
-            UnPause(); 
+            UnPause();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         else
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             // on met l'écran en pause
             Time.timeScale = 0.0f;
             _uiPause.transform.GetChild(0).gameObject.SetActive(true);

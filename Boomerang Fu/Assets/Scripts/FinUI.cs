@@ -28,6 +28,8 @@ public class FinUI : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         var cadres = GameObject.Find("Cadres");
         for (int i = 0; i < GameManager.Instance.Color.Count; i++)
         {
