@@ -2,7 +2,9 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using UnityEngine.Windows;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BoomerangBehaviour : MonoBehaviour
 {
@@ -36,7 +38,6 @@ public class BoomerangBehaviour : MonoBehaviour
 
     public void StartAction(Vector2 location)
     {
-        _aimLocation = location;
         StartCoroutine(Shoot());
     }
 
@@ -104,14 +105,12 @@ public class BoomerangBehaviour : MonoBehaviour
         this.GetComponent<Collider>().enabled = true;
 
         this.transform.parent = null; // Détache le boomerang de son parent le joueur
-        _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
+        _rb.AddRelativeForce(_forceValue, 0 , 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
-            print($"aaaaa {_rb.velocity.magnitude}");
             yield return new WaitForFixedUpdate();
         } while (_rb.velocity.magnitude > _boomerangVelocityThreshold); // Attend que la vélocité ait diminuée
 
-        print("Je retourne sur ma planete");
 
         _rb.velocity = Vector3.zero;
         _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);

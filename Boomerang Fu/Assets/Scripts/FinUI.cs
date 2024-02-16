@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class FinUI : MonoBehaviour
 {
@@ -18,9 +20,22 @@ public class FinUI : MonoBehaviour
         var scores = GameObject.Find("Scores");
 
         // on associe chaque texte de score à un score
-        for (int i = 0; i > GameManager.Instance.Score.Count; i++)
+        for (int i = 0; i < GameManager.Instance.Score.Count; i++)
         {
             scores.transform.GetChild(i).GetComponent<TextMeshProUGUI>().text = GameManager.Instance.Score[i].ToString();
         };
     }
+
+    private void Start()
+    {
+        var cadres = GameObject.Find("Cadres");
+        for (int i = 0; i < GameManager.Instance.Color.Count; i++)
+        {
+            cadres.transform.GetChild(i).GetComponent<Image>().color = 
+                GameManager.Instance.Color[i] * (GameManager.Instance.Connected[i] ? 1 : 0.5f);
+        };
+
+        Time.timeScale = 0;
+    }
+
 }

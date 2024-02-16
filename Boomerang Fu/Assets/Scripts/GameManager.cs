@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    int winner = -1;
+
     [SerializeField] public int MaxScore = 5;
 
     public ObservableCollection<int> Score = new ObservableCollection<int>() { 0, 0, 0, 0 };
@@ -59,9 +61,17 @@ public class GameManager : MonoBehaviour
     void EndGame(int winner)
     {
         SceneManager.LoadScene("Fin", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        this.winner = winner;
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
         var ui = FindObjectOfType<FinUI>();
         ui.ShowTrophy(winner);
         ui.ScoreFinal();
 
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+        this.winner = -1;
     }
 }

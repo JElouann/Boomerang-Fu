@@ -154,6 +154,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxScore: 5
   Connected: 00000000
+  Color:
+  - {r: 0.51, g: 0.84, b: 0.45, a: 1}
+  - {r: 0.95, g: 0.56, b: 0.56, a: 1}
+  - {r: 1, g: 0.66, b: 0.36, a: 1}
+  - {r: 0.55, g: 0.65, b: 0.97, a: 1}
 --- !u!4 &88275075
 Transform:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - PauseScreen
+  - UIScreen
+  - SkinPanel
   layers:
   - Default
   - TransparentFX

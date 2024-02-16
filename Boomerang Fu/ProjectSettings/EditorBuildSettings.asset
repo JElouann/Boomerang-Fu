@@ -12,7 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/SkinScene.unity
     guid: dee08d926e7ecd14081052d520c71b27
   - enabled: 1
-    path: "Assets/Scenes/L\xE9a.unity"
-    guid: 970de945165c21343a64e9231596044f
+    path: Assets/Scenes/GameScene.unity
+    guid: 357e557858c68ee49930d9bf560e7b74
+  - enabled: 1
+    path: Assets/Scenes/Fin.unity
+    guid: 37ffb8e2222589245a4602f0897c5df3
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 32043dead9d2faa4cae88f3a0bd0d17f, type: 2}
