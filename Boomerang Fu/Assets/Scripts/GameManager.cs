@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
         if (_instance != null)
         {
             Destroy(this.gameObject);
+            return;
         }
         _instance = this;
         Score.CollectionChanged += new NotifyCollectionChangedEventHandler(
@@ -72,6 +73,11 @@ public class GameManager : MonoBehaviour
         ui.ScoreFinal();
 
         SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
-        this.winner = -1;
+        Connected = new List<bool> { false, false, false, false };
+        Score[0] = 0;
+        Score[1] = 0;
+        Score[2] = 0;
+        Score[3] = 0;
+        winner = -1;
     }
 }

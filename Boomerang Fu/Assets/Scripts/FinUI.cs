@@ -26,7 +26,7 @@ public class FinUI : MonoBehaviour
         };
     }
 
-    private void Start()
+    private void Awake()
     {
         var cadres = GameObject.Find("Cadres");
         for (int i = 0; i < GameManager.Instance.Color.Count; i++)
