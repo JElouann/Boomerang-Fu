@@ -13,18 +13,22 @@ public class PlayerMain : MonoBehaviour
     private PlayerAttack _attack;
     private PlayerDash _dash;
     private PlayerMouvement _mouvement;
+
+    private AudioSource _source;
+
     [HideInInspector]
     public int id;
     //[SerializeField] private GameObject _spawnVFX;
     private Camera _mainCamera;
 
-    // on récupère les scripts pour  les intégrer chez tous les joueurs
+    // on rï¿½cupï¿½re les scripts pour  les intï¿½grer chez tous les joueurs
     private void Awake() 
     {
         _pause = GetComponent<PauseScreen>();
         _attack = GetComponent<PlayerAttack>();
         _dash = GetComponent<PlayerDash>();
         _mouvement = GetComponent<PlayerMouvement>();
+        _source = GameObject.FindGameObjectWithTag("Finish").GetComponent<AudioSource>();
         _mainCamera = Camera.main;
     }
 
@@ -55,7 +59,9 @@ public class PlayerMain : MonoBehaviour
     private void OnDestroy()
     {
         _mainCamera.DOShakePosition(0.4f, 1);
-        // on détruit le score du joueur quand ce dernier est détruit
+        // on dï¿½truit le score du joueur quand ce dernier est dï¿½truit
         GameManager.Instance.Connected[id] = false; 
+        _source.Play();
+     
     }
 }

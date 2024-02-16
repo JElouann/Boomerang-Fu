@@ -24,6 +24,8 @@ public class BoomerangBehaviour : MonoBehaviour
     [SerializeField] private GameObject _trail;
     [SerializeField] private GameObject _deathVFXPrefab;
 
+    private AudioSource _source;
+
     private void Awake()
     {
         _owner = this.gameObject.transform.parent.gameObject;
@@ -36,6 +38,8 @@ public class BoomerangBehaviour : MonoBehaviour
 
         this.GetComponent<Collider>().enabled = false;
         _rb.isKinematic = true;
+
+        _source = GetComponent<AudioSource>();
     }
 
     public void StartAction(Vector2 location)
@@ -108,6 +112,7 @@ public class BoomerangBehaviour : MonoBehaviour
 
     public IEnumerator Shoot()
     {
+        _source.Play();
         _trail.SetActive(true);
         _trail.transform.rotation = gameObject.transform.rotation;
 
