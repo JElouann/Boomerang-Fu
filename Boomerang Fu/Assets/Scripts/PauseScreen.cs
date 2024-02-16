@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseScreen : MonoBehaviour
 {
@@ -10,6 +12,21 @@ public class PauseScreen : MonoBehaviour
     {
         // on cherche le panel d'UI pour la pause
         _uiPause = GameObject.FindGameObjectWithTag("PauseScreen");
+
+        // on récupère l'input handler
+        var _input = GetComponentInChildren<PlayerInputHandler>();
+        // ajouter la méthode de pause à l'input de pause
+        _input.OnPause += Pause;
+
+        foreach (var button in _uiPause.transform.GetChild(0).GetComponentsInChildren<Button>())
+        {
+            if (button.name == "RetourAuJeu")
+            {
+                button.onClick.AddListener(UnPause);
+            } else {
+                button.onClick.AddListener(GoToExit);
+            }
+        }
     }
 
     //Pour ajouter et retirer la pause grâce à l'input associé
@@ -27,6 +44,9 @@ public class PauseScreen : MonoBehaviour
             // on met l'écran en pause
             Time.timeScale = 0.0f;
             _uiPause.transform.GetChild(0).gameObject.SetActive(true);
+
+            // Force to select a button to make the controller navigate in the menu
+            _uiPause.transform.GetChild(0).GetComponentInChildren<Button>().Select();
         }
     }
 
@@ -37,12 +57,9 @@ public class PauseScreen : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-    private void Start()
+    public void GoToExit()
     {
-        // on récupère l'input handler
-        var _input = GetComponentInChildren<PlayerInputHandler>();
-        // ajouter la méthode de pause à l'input de pause
-        _input.OnPause += Pause;
+        SceneManager.LoadScene("Menu");
     }
 
 }

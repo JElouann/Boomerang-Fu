@@ -34,6 +34,7 @@ public class PlayerMain : MonoBehaviour
                 id = i;
                 GameManager.Instance.Connected[i] = true;
                 GameManager.Instance.Score[i] = 0;
+                break;
             }
         }
 
