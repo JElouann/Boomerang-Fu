@@ -14,17 +14,16 @@ public class PauseScreen : MonoBehaviour
         // si l'écran est déjà en pause
         if (_uiPause.transform.GetChild(0).gameObject.activeSelf == true)
         {
-            // on appelle l'autre méthode pour éviter les doublons
+            // We unpause, unpause has been made into a function 'cause we need it a lot
             UnPause();
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
         else
         {
+            // We unlock the cursor, we are in UI
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            // on met l'écran en pause
+            // We freeze time to pause, and show the panel
             Time.timeScale = 0.0f;
             _uiPause.transform.GetChild(0).gameObject.SetActive(true);
 
@@ -35,33 +34,42 @@ public class PauseScreen : MonoBehaviour
 
     public void UnPause()
     {
-        // on peut rejouer
+        // We turn the game back on and hide the panel
         _uiPause.transform.GetChild(0).gameObject.SetActive(false);
         Time.timeScale = 1.0f;
+
+        // We relock the cursor, we are in gameplay
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void GoToExit()
     {
+        // Simply load Main Menu
         SceneManager.LoadScene("Menu");
     }
 
     private void Awake()
     {
-        // on cherche le panel d'UI pour la pause
+        // We search the pause panel UI
         _uiPause = GameObject.FindGameObjectWithTag("PauseScreen");
 
-        // on récupère l'input handler
+        // We get the input handler of the attached player
         var input = GetComponentInChildren<PlayerInputHandler>();
 
-        // ajouter la méthode de pause à l'input de pause
+        // We add the pause event
         input.OnPause += Pause;
 
+        // For each button, we add the listener
         foreach (var button in _uiPause.transform.GetChild(0).GetComponentsInChildren<Button>())
         {
+            // UnPause button
             if (button.name == "RetourAuJeu")
             {
                 button.onClick.AddListener(UnPause);
             }
+
+            // Quit button
             else
             {
                 button.onClick.AddListener(GoToExit);

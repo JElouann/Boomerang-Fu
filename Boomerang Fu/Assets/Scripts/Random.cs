@@ -43,6 +43,7 @@ public class Random
 
     public long NextInt64()
     {
+        // Just converting an unsigned to a signed int
         return Math.Abs((long)NextUInt64());
     }
 }

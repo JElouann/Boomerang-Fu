@@ -6,19 +6,19 @@ public class FinUI : MonoBehaviour
 {
     public void ShowTrophy(int winner)
     {
-        // on récupère le parent qui contient les trophées
+        // We get all the trophies parent object
         var trophees = GameObject.Find("Trophées");
 
-        // on affiche le trophée du gagnant
+        // and activate only the winner's one
         trophees.transform.GetChild(winner).gameObject.SetActive(true);
     }
 
     public void ScoreFinal()
     {
-        // on récupère le parent qui contient les scores
+        // We get all the scores parent object
         var scores = GameObject.Find("Scores");
 
-        // on associe chaque texte de score à un score
+        // For each one, we associate the score to the text mesh pro itself
         for (int i = 0; i < GameManager.Instance.Score.Count; i++)
         {
             scores.transform.GetChild(i).GetComponent<TextMeshProUGUI>().text =
@@ -28,15 +28,20 @@ public class FinUI : MonoBehaviour
 
     private void Awake()
     {
+        // We unlock the cursor, we are now in UI
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
+        // We get all the Score's text border
         var cadres = GameObject.Find("Cadres");
         for (int i = 0; i < GameManager.Instance.Color.Count; i++)
         {
+            // And make them the color of the corresponding player
             cadres.transform.GetChild(i).GetComponent<Image>().color =
                 GameManager.Instance.Color[i] * (GameManager.Instance.Connected[i] ? 1 : 0.5f);
         }
 
+        // We freeze time
         Time.timeScale = 0;
     }
 }

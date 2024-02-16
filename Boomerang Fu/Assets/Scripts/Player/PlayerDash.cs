@@ -5,10 +5,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerDash : MonoBehaviour
 {
+    // Dash timing variable
     [HideInInspector]
     public float Timer = 0;
     public float CoolDown;
-
+    
     private Rigidbody _rb;
 
     [SerializeField]
@@ -20,19 +21,23 @@ public class PlayerDash : MonoBehaviour
 
     private void Awake()
     {
+        // Bind Dash input.
         var input = GetComponentInChildren<PlayerInputHandler>();
         input.OnDash += Dash;
 
+        // Get Rigidbody to add force
         _rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
+        // Decrease the timer by the time that has passed since last time.
         Timer -= Time.fixedDeltaTime;
     }
 
     private void Dash(InputAction.CallbackContext value)
     {
+        // If dash is perfomed
         if (value.performed && Timer < 0)
         {
             // Set timer
@@ -54,6 +59,8 @@ public class PlayerDash : MonoBehaviour
 
     private IEnumerator DestructVFX(GameObject vfx)
     {
+        // Wait 1s then destroy the GameObject
+        // 1s is plenty of time for the VFX to finish
         yield return new WaitForSeconds(1f);
         Destroy(vfx);
     }
