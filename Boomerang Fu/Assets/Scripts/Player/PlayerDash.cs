@@ -1,27 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerDash : MonoBehaviour
 {
-    public Rigidbody Rb;
-
-    public float VitesseDash;
-
-    public float Cooldown;
-
-    public float _timer = 0;
-
     [SerializeField] private GameObject _dashVFX;
-
     [SerializeField] private AudioSource _src;
+
+    [SerializeField] private float _vitesseDash;
+    private Rigidbody _rb;
+
+    [HideInInspector] public float _timer = 0;
+    public float CoolDown;
 
     private void Awake()
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
-        _input.OnDash += Dasher;
+        _input.OnDash += Dash;
+
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
@@ -29,17 +27,24 @@ public class PlayerDash : MonoBehaviour
         _timer -= Time.fixedDeltaTime;
     }
 
-    void Dasher(InputAction.CallbackContext Dash)
+    void Dash(InputAction.CallbackContext value)
     {
-        if (Dash.performed && _timer < 0)
+        if (value.performed && _timer < 0)
         {
+            // Set timer
+            _timer = CoolDown;
+            
+            // Add Force
+            _rb.velocity = Vector3.zero;
+            _rb.AddRelativeForce(Vector3.forward * _vitesseDash * 5, ForceMode.Impulse);
+
+            // Play Sound
             _src.Play();
-            _timer = Cooldown;
+
+            // VFX
             GameObject _dashVFXClone = Instantiate(_dashVFX, transform);
             _dashVFXClone.transform.parent = null;
             StartCoroutine(DestructVFX(_dashVFXClone));
-            Rb.velocity = Vector3.zero;
-            Rb.AddRelativeForce(Vector3.forward * VitesseDash * 5, ForceMode.Impulse);
         }
     }
 

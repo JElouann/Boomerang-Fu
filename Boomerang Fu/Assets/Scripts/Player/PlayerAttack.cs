@@ -6,12 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public BoomerangCollision _boomerangBehaviour { get; private set; }
+    public BoomerangCollision _boomerangCollision { get; private set; }
 
     private void AttachBoomerang(BoomerangCollision boomerangBehaviour) // Permet d'attacher un boomerang � un joueur
     {
-        _boomerangBehaviour = boomerangBehaviour;
-
+        _boomerangCollision = boomerangBehaviour;
         boomerangBehaviour.GetComponent<Renderer>().materials[0].SetColor("_Color", GameManager.Instance.Color[GetComponent<PlayerMain>().id]) ;
     }
 
@@ -19,14 +18,14 @@ public class PlayerAttack : MonoBehaviour
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
         _input.OnAttack += Attack;
-        _boomerangBehaviour = GetComponentInChildren<BoomerangCollision>();
+        _boomerangCollision = GetComponentInChildren<BoomerangCollision>();
     }
 
     void Attack(InputAction.CallbackContext context)
     {
-        if(context.canceled && _boomerangBehaviour != null) {
-            _boomerangBehaviour.GetComponent<BoomerangMovement>().StartAction();
-            _boomerangBehaviour = null;
+        if(context.canceled && _boomerangCollision != null) {
+            _boomerangCollision.GetComponent<BoomerangMovement>().StartAction();
+            _boomerangCollision = null;
         }
     }
 }

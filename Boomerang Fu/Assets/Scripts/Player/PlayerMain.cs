@@ -1,7 +1,5 @@
 using UnityEngine;
 using DG.Tweening;
-using UnityEditor.SearchService;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(PlayerDash))]

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerDash))]
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody Rb;
@@ -17,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(_dash._timer <= _dash.Cooldown - (_dash.Cooldown / 4)) { 
+        if(_dash._timer <= _dash.CoolDown - (_dash.CoolDown / 4)) { 
             var dir = _input.actions.FindAction("Move").ReadValue<Vector2>();
             Rb.velocity = (new Vector3(dir.x, 0, dir.y) * Vitesse);
         }

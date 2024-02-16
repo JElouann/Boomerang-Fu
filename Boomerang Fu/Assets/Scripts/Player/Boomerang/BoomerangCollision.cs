@@ -51,12 +51,12 @@ public class BoomerangCollision : MonoBehaviour
         {
             if (collision.gameObject == _ownerMain.gameObject)
             {
-                if (_ownerMain.gameObject.GetComponent<PlayerAttack>()._boomerangBehaviour == null) 
+                if (_ownerMain.gameObject.GetComponent<PlayerAttack>()._boomerangCollision == null) 
                     Attach(collision.gameObject);
             }
             else
             {
-                if (_rb.velocity.magnitude < 0.3 && collision.gameObject.GetComponent<PlayerAttack>()._boomerangBehaviour == null)
+                if (_rb.velocity.magnitude < 0.3 && collision.gameObject.GetComponent<PlayerAttack>()._boomerangCollision == null)
                 {
                     var _owner = collision.gameObject;
                     _ownerMain = _owner.GetComponent<PlayerMain>();
