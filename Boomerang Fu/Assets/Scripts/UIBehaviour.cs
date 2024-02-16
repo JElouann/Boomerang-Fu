@@ -26,10 +26,8 @@ public class UIBehaviour : MonoBehaviour
 
     private void Score_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        print("bonjour");
         if (e.Action == NotifyCollectionChangedAction.Replace)
         {
-            print($"new = {e.NewStartingIndex} : {e.NewItems[0]}");
             texts[e.NewStartingIndex].text = e.NewItems[0].ToString();
         }
     }

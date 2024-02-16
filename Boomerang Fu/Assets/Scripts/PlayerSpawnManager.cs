@@ -14,7 +14,9 @@ public class PlayerSpawnManager : MonoBehaviour
     {
         GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Respawn");
 
-        GameObject spawnChoosen = spawnpoints[_rand.NextInt() % 4];
+        int randNum = (int)(_rand.NextInt64() % 4);
+        print(randNum);
+        GameObject spawnChoosen = spawnpoints[randNum];
 
         input.transform.parent.position = spawnChoosen.transform.position;
     }

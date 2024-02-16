@@ -94,7 +94,6 @@ public class BoomerangBehaviour : MonoBehaviour
                         Debug.Log(GameManager.Instance.Score[_ownerPlayerMain.id]);
                         GameObject death = Instantiate(_deathVFXPrefab, collision.gameObject.transform);
                         death.transform.parent = null;
-                        print($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH {death}");
                         Destroy(collision.gameObject);
                     }
                 }
@@ -119,13 +118,11 @@ public class BoomerangBehaviour : MonoBehaviour
         _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
-            print($"aaaaa {_rb.velocity.magnitude}");
             yield return new WaitForFixedUpdate();
         } while (_rb.velocity.magnitude > _boomerangVelocityThreshold); // Attend que la vélocité ait diminuée
 
         _trail.SetActive(false);
         _trail.transform.localRotation = new Quaternion(0, 180, 0, 0);
-        print("Je retourne sur ma planete");
 
 
         _rb.velocity = Vector3.zero;
