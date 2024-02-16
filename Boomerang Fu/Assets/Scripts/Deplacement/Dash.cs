@@ -16,7 +16,7 @@ public class PlayerDash : MonoBehaviour
 
     [SerializeField] private GameObject _dashVFX;
 
-    private AudioSource _src;
+    [SerializeField] private AudioSource _src;
 
     private void Awake()
     {

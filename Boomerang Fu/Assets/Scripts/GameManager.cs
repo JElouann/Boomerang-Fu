@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -64,6 +65,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Fin", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         this.winner = winner;
+        foreach(var obj in GameObject.FindObjectsOfType<AudioSource>())
+        {
+            obj.enabled = false;
+        }
+        Destroy(FindObjectOfType<Canvas>().gameObject);
     }
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
@@ -79,5 +85,7 @@ public class GameManager : MonoBehaviour
         Score[2] = 0;
         Score[3] = 0;
         winner = -1;
+
+        FindObjectOfType<Button>().Select();
     }
 }
