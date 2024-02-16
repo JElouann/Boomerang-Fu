@@ -6,11 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public BoomerangBehaviour _boomerangBehaviour { get; private set; }
+    public BoomerangCollision _boomerangBehaviour { get; private set; }
 
-    private Vector2 _aim;
-
-    private void AttachBoomerang(BoomerangBehaviour boomerangBehaviour) // Permet d'attacher un boomerang � un joueur
+    private void AttachBoomerang(BoomerangCollision boomerangBehaviour) // Permet d'attacher un boomerang � un joueur
     {
         _boomerangBehaviour = boomerangBehaviour;
 
@@ -21,17 +19,14 @@ public class PlayerAttack : MonoBehaviour
     {
         var _input = GetComponentInChildren<PlayerInputHandler>();
         _input.OnAttack += Attack;
-        _boomerangBehaviour = GetComponentInChildren<BoomerangBehaviour>();
+        _boomerangBehaviour = GetComponentInChildren<BoomerangCollision>();
     }
+
     void Attack(InputAction.CallbackContext context)
     {
         if(context.canceled && _boomerangBehaviour != null) {
-            _boomerangBehaviour.StartAction(_aim);
+            _boomerangBehaviour.GetComponent<BoomerangMovement>().StartAction();
             _boomerangBehaviour = null;
-        }
-        else
-        {
-            _aim = context.ReadValue<Vector2>();
         }
     }
 }
