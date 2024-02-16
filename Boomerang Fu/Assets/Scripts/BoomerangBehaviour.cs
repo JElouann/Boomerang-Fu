@@ -2,9 +2,8 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+using UnityEngine.VFX;
 using UnityEngine.Windows;
-using static UnityEngine.Rendering.DebugUI;
 
 public class BoomerangBehaviour : MonoBehaviour
 {
@@ -22,6 +21,8 @@ public class BoomerangBehaviour : MonoBehaviour
 
     private Vector3 _aimLocation;
 
+    [SerializeField] private GameObject _trail;
+
     private void Awake()
     {
         _owner = this.gameObject.transform.parent.gameObject;
@@ -38,6 +39,7 @@ public class BoomerangBehaviour : MonoBehaviour
 
     public void StartAction(Vector2 location)
     {
+        _aimLocation = location;
         StartCoroutine(Shoot());
     }
 
@@ -45,8 +47,9 @@ public class BoomerangBehaviour : MonoBehaviour
     {
         if(_owner == null)
         {
+            _death.SetActive(true);
             Destroy(this.gameObject);
-        }        
+        }
     }
 
     private void Attach(GameObject parent)
@@ -69,6 +72,8 @@ public class BoomerangBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         print(collision.gameObject.tag);
+        Debug.Log("MAMAAAAAAAAAAAAAAAAAAAAAAAA");
+        _trail.SetActive(false);
         switch (collision.gameObject.tag)
         {
             case "Player":
@@ -84,9 +89,10 @@ public class BoomerangBehaviour : MonoBehaviour
                         Attach(collision.gameObject);
                     }
                     else
-                    { 
+                    {
                         GameManager.Instance.Score[_ownerPlayerMain.id]++;
                         Debug.Log(GameManager.Instance.Score[_ownerPlayerMain.id]);
+
                         Destroy(collision.gameObject);
                     }
                 }
@@ -101,19 +107,28 @@ public class BoomerangBehaviour : MonoBehaviour
 
     public IEnumerator Shoot()
     {
+        _trail.SetActive(true);
+        _trail.transform.rotation = gameObject.transform.rotation;
+
         _rb.isKinematic = false;
         this.GetComponent<Collider>().enabled = true;
-
+         
         this.transform.parent = null; // Détache le boomerang de son parent le joueur
-        _rb.AddRelativeForce(_forceValue, 0 , 0, ForceMode.Impulse); // Lance le boomerang droit devant
+        _rb.AddRelativeForce(_forceValue, 0, 0, ForceMode.Impulse); // Lance le boomerang droit devant
         do
         {
+            print($"aaaaa {_rb.velocity.magnitude}");
             yield return new WaitForFixedUpdate();
         } while (_rb.velocity.magnitude > _boomerangVelocityThreshold); // Attend que la vélocité ait diminuée
+
+        _trail.SetActive(false);
+        _trail.transform.localRotation = new Quaternion(0, 180, 0, 0);
+        print("Je retourne sur ma planete");
 
 
         _rb.velocity = Vector3.zero;
         _rb.AddRelativeForce(-_forceValue, 0, 0, ForceMode.Impulse);
+        _trail.SetActive(true);
     }
 }
 
