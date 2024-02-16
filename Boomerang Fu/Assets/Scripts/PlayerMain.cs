@@ -1,4 +1,7 @@
 using UnityEngine;
+using DG.Tweening;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(PlayerDash))]
@@ -12,6 +15,8 @@ public class PlayerMain : MonoBehaviour
     private PlayerMouvement _mouvement;
     [HideInInspector]
     public int id;
+    //[SerializeField] private GameObject _spawnVFX;
+    private Camera _mainCamera;
 
     // on récupère les scripts pour  les intégrer chez tous les joueurs
     private void Awake() 
@@ -20,6 +25,7 @@ public class PlayerMain : MonoBehaviour
         _attack = GetComponent<PlayerAttack>();
         _dash = GetComponent<PlayerDash>();
         _mouvement = GetComponent<PlayerMouvement>();
+        _mainCamera = Camera.main;
     }
 
     private void Start()
@@ -36,9 +42,11 @@ public class PlayerMain : MonoBehaviour
                 GameManager.Instance.Score[i] = 0;
                 break;
             }
+            //GameObject spawnVFX = Instantiate(_spawnVFX);
+            //spawnVFX.transform.parent = null;
         }
 
-        foreach(var renderer in GetComponentsInChildren<Renderer>())
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
         {
             renderer.materials[0].SetColor("_Color", GameManager.Instance.Color[id]);
         }
@@ -46,6 +54,7 @@ public class PlayerMain : MonoBehaviour
 
     private void OnDestroy()
     {
+        _mainCamera.DOShakePosition(0.4f, 1);
         // on détruit le score du joueur quand ce dernier est détruit
         GameManager.Instance.Connected[id] = false; 
     }
